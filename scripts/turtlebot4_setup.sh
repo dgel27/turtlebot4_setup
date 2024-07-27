@@ -29,6 +29,12 @@ Help()
 
 echo "Setting up Turtlebot4";
 
+# Remove UBUNTU stuff
+sudo systemctl stop unattended-upgrades
+sudo apt purge -y ubuntu-advantage-tools snapd unattended-upgrades cloud-init
+sudo apt -y autoremove
+
+
 sudo apt update && sudo apt upgrade
 
 sudo apt install curl gnupg lsb-release -y

@@ -51,12 +51,12 @@ ros-humble-turtlebot4-setup \
 ros-humble-turtlebot4-robot \
 ros-humble-irobot-create-control \
 ros-humble-turtlebot4-navigation \
-ros-dev-tools \
-socat \
-network-manager \
+#ros-dev-tools \
+#socat \
+#network-manager \
 chrony
 
-sudo rm /etc/netplan/50-cloud-init.yaml
+#sudo rm /etc/netplan/50-cloud-init.yaml
 
 git clone https://github.com/turtlebot/turtlebot4_setup.git -b humble && \
 sudo mv turtlebot4_setup/boot/firmware/* /boot/firmware && rm turtlebot4_setup/ -rf

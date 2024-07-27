@@ -12,20 +12,22 @@ Follow these instructions if you wish to create a Turtlebot4 image manually.
 
 First install the [Raspberry Pi Imager](https://www.raspberrypi.com/software/).
 
-- Insert your SD card into your PC and run the Raspberry Pi Imager. Follow the instructions and install Ubuntu 22.04 Server (64-bit) onto the SD card.
+- Insert your SD card into your PC and run the Raspberry Pi Imager.
+- Enter username/password and WiFi/Password of your local network
+- Follow the instructions and install Ubuntu 22.04 Server (64-bit) onto the SD card.
 - Ensure your Raspberry Pi 4 is not powered before inserting the flashed SD card. 
-- You can set up the Raspberry Pi by either connecting it to your network via Ethernet or by using a keyboard and HDMI monitor via a micro HDMI cable.
+- You can set up the Raspberry Pi by connecting it to your network via Ethernet/WiFi or by using a keyboard and HDMI monitor.
 
 ### Ethernet Setup
 
-- Connect the Raspberry Pi to your Network with an Ethernet cable.
+- Connect the Raspberry Pi to your Network with an Ethernet cable or WiFi.
 - Boot the Raspberry Pi. 
 - Find the Raspberry Pi's IP using your router's portal.
 - SSH into the Raspberry Pi using the IP address.
 ```bash
-ssh ubuntu@xxx.xxx.xxx.xxx
+ssh <username>@xxx.xxx.xxx.xxx
 ```
-- The default login is `ubuntu` and password is `ubuntu`. You will be prompted to change your password.
+- The login and password, you use in create SD card. If you skip it, the user and password are 'ubuntu'
 
 ### HDMI Setup
 

@@ -64,7 +64,7 @@ ssh ubuntu@xxx.xxx.xxx.xxx
 ## Download and run the setup script
 
 ```
-wget -qO - https://raw.githubusercontent.com/turtlebot/turtlebot4_setup/humble/scripts/turtlebot4_setup.sh | bash
+wget -qO - https://raw.githubusercontent.com/dgel27/turtlebot4_setup/humble/scripts/turtlebot4_setup.sh | bash
 ```
 
 The script will automatically install ROS 2 Humble, TurtleBot 4 packages, and other important apt packages. It will also configure the RPi4 to work in a TurtleBot 4. Once complete, the RPi4 should be rebooted with `sudo reboot`. Then, run `turtlebot4-setup` to configure the robot with the setup tool.

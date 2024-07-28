@@ -73,6 +73,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 sudo systemctl stop unattended-upgrades
 sudo apt purge -y ubuntu-advantage-tools snapd unattended-upgrades cloud-init
 sudo apt -y autoremove
+sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/20apt-esm-hook.conf.disabled --add /etc/apt/apt.conf.d/20apt-esm-hook.conf
 #touch /etc/cloud/cloud-init.disabled
 
 

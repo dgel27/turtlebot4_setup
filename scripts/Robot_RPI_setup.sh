@@ -10,52 +10,47 @@
 # modules-load=dwc2,g_ether
 # after rootwait.
 # create network-config file with content:
-version: 2
-ethernets:
+
+cat <<\EOF >> 40_ether.yaml
+    version: 2
+    ethernets:
 # Rpi eternet RJ-45 usualy camera connected
-    eth0:
-        dhcp4: true
-        optional: true
-        mtu: 1400
-        addresses: [192.168.185.3/24]
+            eth0:
+            dhcp4: true
+            optional: true
+            mtu: 1400
+            addresses: [192.168.185.3/24]
 # Askey 5G USB dongle
-    eth1:
-        dhcp4: false
-        optional: true
-        mtu: 1400
-        addresses: [192.168.43.3/24]
-        routes:
-        - to: 10.100.100.0/24
-          via: 192.168.43.1
-          metric: 100
-          on-link: true
+        eth1:
+            dhcp4: false
+            optional: true
+            mtu: 1400
+            addresses: [192.168.43.3/24]
+            routes:
+            - to: 10.100.100.0/24
+              via: 192.168.43.1
+              metric: 100
+              on-link: true
 # Create3 iRobot interface
-    usb0:
-        dhcp4: false
-        optional: true
-        addresses: [192.168.186.3/24]
+        usb0:
+            dhcp4: false
+            optional: true
+            addresses: [192.168.186.3/24]
 # Telit 5G USB dongle
-    usb1:
-        dhcp4: true
-        mtu: 1400
-        optional: true
-        addresses: [192.168.225.3/24]
-        routes:
-        - to: 10.100.100.0/24
-          via: 192.168.225.1
-          metric: 100
-          on-link: true
-wifis:
-  renderer: networkd
-  wlan0:
-    dhcp4: true
-    optional: true
-    access-points:
-      "Robot":
-        password: "441d78da18da3e3bfe2b21d0072a97eb8df6870124978b360466435789a9927d"
-        
+        usb1:
+            dhcp4: true
+            mtu: 1400
+            optional: true
+            addresses: [192.168.225.3/24]
+            routes:
+            - to: 10.100.100.0/24
+              via: 192.168.225.1
+              metric: 100
+              on-link: true
+EOF        
 
 # After RPi is booted, login to it, copy and paste below lines:
+
 
 
 sudo locale-gen en_US en_US.UTF-8

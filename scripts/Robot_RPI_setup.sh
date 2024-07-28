@@ -263,6 +263,17 @@ create3_update()
 	curl -X POST --data-binary @$1 http://192.168.186.2/api/firmware-update
 }
 
+lidar_stop()
+{
+	ros2 service call /stop_motor std_srvs/srv/Empty "{}"
+}
+
+lidar_start()
+{
+	ros2 service call /start_motor std_srvs/srv/Empty "{}"
+}
+
+
 EOF
 
 sudo mkdir /etc/robot

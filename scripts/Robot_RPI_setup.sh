@@ -2,13 +2,7 @@
 
 # Script to create SD card for iRobot Humble from scratch
 #
-# In the system-boot partition, edit config.txt and add:
-# dtoverlay=dwc2,dr_mode=peripheral
-# at the end of the file.
 #
-# In the system-boot partition, edit cmdline.txt to add:
-# modules-load=dwc2,g_ether
-# after rootwait.
 # create network-config file with content:
 
 cat <<\EOF >> 40_ether.yaml
@@ -53,6 +47,8 @@ sudo cp 40_ether.yaml /etc/netplan/
 sudo cfmod 6666 /etc/netplan/*.yaml
 sudo netplan generate
 
+sudo sed -i -e '$a\'$'\n''dtoverlay=dwc2,dr_mode=peripheral' /boot/firmware/config.txt
+sudo sed -i 's|rootwait|rootwait modules-load=dwc2,g_ether|g' /boot/firmware/cmdline.txt
 
 
 
@@ -64,8 +60,6 @@ export LANG=en_US.UTF-8
 sudo add-apt-repository universe
 # Add ROS2 repository
 
-sudo sed -i -e '$a\'$'\n''dtoverlay=dwc2,dr_mode=peripheral' /boot/firmware/config.txt
-sudo sed -i 's|rootwait|rootwait modules-load=dwc2,g_ether|g' /boot/firmware/cmdline.txt
 
 
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg

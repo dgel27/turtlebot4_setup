@@ -47,9 +47,12 @@ cat <<\EOF >> 40_ether.yaml
               via: 192.168.225.1
               metric: 100
               on-link: true
-EOF        
+EOF
 
-# After RPi is booted, login to it, copy and paste below lines:
+sudo cp 40_ether.yaml /etc/netplan/
+sudo cfmod 6666 /etc/netplan/*.yaml
+sudo netplan generate
+
 
 
 

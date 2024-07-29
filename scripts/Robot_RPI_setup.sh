@@ -6,6 +6,7 @@
 # create network-config file with content:
 
 cat <<\EOF >> 40_ether.yaml
+network:
     version: 2
     ethernets:
 # Rpi eternet RJ-45 usualy camera connected

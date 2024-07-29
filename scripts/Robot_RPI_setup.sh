@@ -45,7 +45,7 @@ network:
 EOF
 
 sudo cp 40_ether.yaml /etc/netplan/
-sudo cfmod 6666 /etc/netplan/*.yaml
+sudo chmod 600 /etc/netplan/*.yaml
 sudo netplan generate
 
 sudo sed -i -e '$a\'$'\n''dtoverlay=dwc2,dr_mode=peripheral' /boot/firmware/config.txt

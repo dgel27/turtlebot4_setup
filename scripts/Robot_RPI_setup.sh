@@ -10,7 +10,7 @@ network:
     version: 2
     ethernets:
 # Rpi eternet RJ-45 usualy camera connected
-            eth0:
+        eth0:
             dhcp4: true
             optional: true
             mtu: 1400

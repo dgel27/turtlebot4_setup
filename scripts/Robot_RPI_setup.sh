@@ -141,7 +141,7 @@ sudo mv 50_robot.rules /etc/udev/rules.d/
 cat <<\EOF >> fastddsdiscovery.sh
 #!/bin/bash
 source /opt/ros/humble/setup.bash
-fastdds discovery -i 0 -p 11811
+/opt/ros/humble/bin/fast-discovery-server -i0
 EOF
 
 sudo mv fastddsdiscovery.sh /usr/sbin/

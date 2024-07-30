@@ -44,7 +44,7 @@ network:
               on-link: true
 EOF
 
-sudo cp 40_ether.yaml /etc/netplan/
+sudo mv 40_ether.yaml /etc/netplan/
 sudo chmod 600 /etc/netplan/*.yaml
 sudo netplan generate
 

@@ -49,9 +49,8 @@ sudo chmod 600 /etc/netplan/*.yaml
 sudo netplan generate
 
 sudo sed -i -e '$a\'$'\n''dtoverlay=dwc2,dr_mode=peripheral' /boot/firmware/config.txt
+sudo sed -i -e '$a\'$'\n''dtoverlay=i2c-gpio,bus=3,i2c_gpio_delay_us=1,i2c_gpio_sda=4,i2c_gpio_scl=5' /boot/firmware/config.txt
 sudo sed -i 's|rootwait|rootwait modules-load=dwc2,g_ether|g' /boot/firmware/cmdline.txt
-
-
 
 sudo locale-gen en_US en_US.UTF-8
 sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
@@ -59,10 +58,8 @@ export LANG=en_US.UTF-8
 
 #sudo apt install software-properties-common
 sudo add-apt-repository universe
+
 # Add ROS2 repository
-
-
-
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
@@ -105,11 +102,11 @@ COMMIT
 -A PREROUTING -p tcp -m tcp --dport 8280 -j DNAT --to-destination 192.168.225.1:80
 -A PREROUTING -p tcp -m tcp --dport 8122 -j DNAT --to-destination 192.168.43.1:22
 -A PREROUTING -p tcp -m tcp --dport 8222 -j DNAT --to-destination 192.168.225.1:22
--A PREROUTING -p tcp -m tcp --dport 8080 -j DNAT --to-destination 192.168.185.5:80
+-A PREROUTING -p tcp -m tcp --dport 8081 -j DNAT --to-destination 192.168.185.5:80
 -A PREROUTING -p tcp -m tcp --dport 8022 -j DNAT --to-destination 192.168.185.5:22
 -A PREROUTING -p tcp -m tcp --dport 554 -j DNAT --to-destination 192.168.185.5:554
 -A PREROUTING -p udp -m udp --dport 554 -j DNAT --to-destination 192.168.185.5:554
--A PREROUTING -p tcp -m tcp --dport 8081 -j DNAT --to-destination 192.168.186.2:80
+-A PREROUTING -p tcp -m tcp --dport 8080 -j DNAT --to-destination 192.168.186.2:80
 -A POSTROUTING -o wlan0 -j MASQUERADE
 -A POSTROUTING -o eth0 -j MASQUERADE
 -A POSTROUTING -o eth1 -j MASQUERADE
@@ -151,7 +148,7 @@ sudo mv fastddsdiscovery.sh /usr/sbin/
 sudo chmod +x /usr/sbin/fastddsdiscovery.sh
 
 
-cat <<\EOF >> fastdds.service
+cat <<\EOF >> tb4_fastdds.service
 [Unit]
 Description=FastDDS discovery server
 After=network.target
@@ -166,7 +163,7 @@ ExecStart=/bin/bash -e /usr/sbin/fastddsdiscovery.sh
 WantedBy=multi-user.target
 EOF
 
-sudo mv fastdds.service /etc/systemd/system
+sudo mv tb4_fastdds.service /etc/systemd/system
 
 
 # Create FastDDS profile file
@@ -310,7 +307,7 @@ ros-humble-rplidar-ros
 sudo sed -i '/maxsources 2/a #\n\n# Create3 settings:\n#server 192.168.186.2 presend 0 minpoll 0 maxpoll 0 iburst prefer trust\nallow 192.168.186.0/24\nlocal stratum 10' /etc/chrony/chrony.conf
 
 # Enable FastDDS discovery server
-sudo systemctl enable fastdds.service
+sudo systemctl enable tb4_fastdds.service
 
 # ROS2 sourcing
 echo >> ~/.bashrc

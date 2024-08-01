@@ -3,6 +3,74 @@
 # Script to create SD card for iRobot Humble from scratch
 #
 #
+
+sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/20apt-esm-hook.conf.disabled --add /etc/apt/apt.conf.d/20apt-esm-hook.conf
+sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/99needrestart.disabled --add /etc/apt/apt.conf.d/99needrestart
+
+
+
+#sudo apt install software-properties-common
+sudo add-apt-repository universe
+
+# Add ROS2 repository
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+
+# Remove UBUNTU stuff
+sudo systemctl stop unattended-upgrades
+
+sudo apt purge -y \
+ubuntu-advantage-tools \
+snapd unattended-upgrades \
+cloud-init
+
+sudo apt -y autoremove
+
+
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+sudo apt update && sudo apt upgrade -y
+
+# Install and config chrony
+sudo apt install -y \
+iptables-persistent \
+nmap \
+adb \
+mc \
+iw \
+hostapd \
+picocom \
+chrony \
+ros-humble-ros-base \
+ros-humble-irobot-create-msgs \
+ros-humble-demo-nodes-cpp \
+ros-humble-teleop-twist-keyboard \
+ros-humble-rplidar-ros
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # create network-config file with content:
 
 cat <<\EOF >> 40_ether.yaml
@@ -48,33 +116,14 @@ sudo mv 40_ether.yaml /etc/netplan/
 sudo chmod 600 /etc/netplan/*.yaml
 sudo netplan generate
 
+
+
 sudo sed -i -e '$a\'$'\n''dtoverlay=dwc2,dr_mode=peripheral' /boot/firmware/config.txt
 sudo sed -i -e '$a\'$'\n''dtoverlay=i2c-gpio,bus=3,i2c_gpio_delay_us=1,i2c_gpio_sda=4,i2c_gpio_scl=5' /boot/firmware/config.txt
 sudo sed -i 's|rootwait|rootwait modules-load=dwc2,g_ether|g' /boot/firmware/cmdline.txt
 
-sudo locale-gen en_US en_US.UTF-8
-sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
-export LANG=en_US.UTF-8
 
-#sudo apt install software-properties-common
-sudo add-apt-repository universe
 
-# Add ROS2 repository
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-
-# Remove UBUNTU stuff
-sudo systemctl stop unattended-upgrades
-
-sudo apt purge -y \
-ubuntu-advantage-tools \
-snapd unattended-upgrades \
-cloud-init
-
-sudo apt -y autoremove
-
-sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/20apt-esm-hook.conf.disabled --add /etc/apt/apt.conf.d/20apt-esm-hook.conf
-#touch /etc/cloud/cloud-init.disabled
 
 
 # Iptables rules
@@ -287,21 +336,6 @@ sudo mv rpi_fastdds_superclient.xml /etc/robot
 sudo mv rpi_fastdds_local.xml /etc/robot
 sudo mv ros2_aliases.sh /etc/robot
 
-sudo apt update && sudo apt upgrade -y
-
-# Install and config chrony
-sudo apt install -y \
-iptables-persistent \
-nmap \
-adb \
-mc \
-picocom \
-chrony \
-ros-humble-ros-base \
-ros-humble-irobot-create-msgs \
-ros-humble-demo-nodes-cpp \
-ros-humble-teleop-twist-keyboard \
-ros-humble-rplidar-ros
 
 # chrony config
 sudo sed -i '/maxsources 2/a #\n\n# Create3 settings:\n#server 192.168.186.2 presend 0 minpoll 0 maxpoll 0 iburst prefer trust\nallow 192.168.186.0/24\nlocal stratum 10' /etc/chrony/chrony.conf

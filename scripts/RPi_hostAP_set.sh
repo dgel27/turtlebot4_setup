@@ -12,7 +12,7 @@ After=local-fs.target
 Type=oneshot
 RemainAfterExit=true
 User=root
-ExecStart=/usr/sbin/hostap.sh
+ExecStart=/usr/sbin/tb4_hostap_stsrt.sh
 
 [Install]
 WantedBy=multi-user.target
@@ -20,7 +20,7 @@ EOF
 
 sudo mv tb4_hostapd.service
 
-cat <<\EOF >> hostap.sh
+cat <<\EOF >> tb4_hostap_stsrt.sh
 #!/bin/bash
 
 iw dev wlan0 interface add uap0 type __ap
@@ -33,7 +33,7 @@ busybox udhcpd /etc/udhcpd.conf
 EOF
 
 chmod +x hostap.sh
-sudo mv hostap.sh /usr/sbin/
+sudo mv tb4_hostap_stsrt.sh /usr/sbin/
 
 cat <<\EOF >> hostapd.conf
 interface=uap0

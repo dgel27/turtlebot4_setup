@@ -6,6 +6,8 @@
 
 sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/20apt-esm-hook.conf.disabled --add /etc/apt/apt.conf.d/20apt-esm-hook.conf
 sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/99needrestart.disabled --add /etc/apt/apt.conf.d/99needrestart
+sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
 
 
 

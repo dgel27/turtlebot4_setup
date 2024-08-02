@@ -166,7 +166,7 @@ COMMIT
 COMMIT
 # Completed on Sat Aug 13 08:48:05 2022
 EOF
-sudo mkdir /etc/iptables/
+#sudo mkdir /etc/iptables/
 sudo mv rules.v4 /etc/iptables/
 
 # Enable packets redirecting

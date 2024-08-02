@@ -66,5 +66,10 @@ ssh ubuntu@xxx.xxx.xxx.xxx
 ```
 wget -qO - https://raw.githubusercontent.com/dgel27/turtlebot4_setup/humble/scripts/Robot_RPI_setup.sh | bash
 ```
+## Script to enable Wi-Fi hotspot on Robot
+
+```
+wget -qO - https://raw.githubusercontent.com/dgel27/turtlebot4_setup/humble/scripts/RPi_hostAP_set.sh
+```
 
 The script will automatically install ROS 2 Humble, TurtleBot 4 packages, and other important apt packages. It will also configure the RPi4 to work in a TurtleBot 4. Once complete, the RPi4 should be rebooted with `sudo reboot`. Then, run `turtlebot4-setup` to configure the robot with the setup tool.

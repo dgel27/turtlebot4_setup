@@ -18,7 +18,7 @@ ExecStart=/usr/sbin/tb4_hostap_start.sh
 WantedBy=multi-user.target
 EOF
 
-sudo mv tb4_hostapd.service
+sudo mv tb4_hostapd.service /etc/systemd/system
 
 cat <<\EOF >> tb4_hostap_start.sh
 #!/bin/bash

@@ -9,6 +9,10 @@ sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/99needrestart.disabled --
 sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
 sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
 
+sudo systemctl disable apt-daily-upgrade.timer
+sudo systemctl mask apt-daily-upgrade.service
+sudo systemctl disable apt-daily.timer
+sudo systemctl mask apt-daily.service
 
 
 #sudo apt install software-properties-common
@@ -22,12 +26,15 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 # Remove UBUNTU stuff
 sudo systemctl stop unattended-upgrades
 
-sudo apt purge -y \
+sudo apt purge --auto-remove -y \
 ubuntu-advantage-tools \
 snapd unattended-upgrades \
-cloud-init
+cloud-init \
+friendly-recovery \
+apport \
+eject
 
-sudo apt -y autoremove
+#sudo apt -y autoremove
 
 
 sudo locale-gen en_US en_US.UTF-8
@@ -502,6 +509,9 @@ EOF
 
 sudo mv udhcpd.conf /etc/
 sudo systemctl enable tb4_hostapd.service
+
+# TODO: create tb4_start.service
+# ros2 launch turtlebot4_bringup standard.launch.py
 
 
 

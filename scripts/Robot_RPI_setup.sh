@@ -125,15 +125,9 @@ sudo mv 40_ether.yaml /etc/netplan/
 sudo chmod 600 /etc/netplan/*.yaml
 sudo netplan generate
 
-
-
 sudo sed -i -e '$a\'$'\n''dtoverlay=dwc2,dr_mode=peripheral' /boot/firmware/config.txt
 sudo sed -i -e '$a\'$'\n''dtoverlay=i2c-gpio,bus=3,i2c_gpio_delay_us=1,i2c_gpio_sda=4,i2c_gpio_scl=5' /boot/firmware/config.txt
 sudo sed -i 's|rootwait|rootwait modules-load=dwc2,g_ether|g' /boot/firmware/cmdline.txt
-
-
-
-
 
 # Iptables rules
 # TODO: split parts with dynamic udev rules
@@ -345,15 +339,11 @@ sudo mv rpi_fastdds_superclient.xml /etc/robot
 sudo mv rpi_fastdds_local.xml /etc/robot
 sudo mv ros2_aliases.sh /etc/robot
 
-
 # chrony config
 sudo sed -i '/maxsources 2/a #\n\n# Create3 settings:\n#server 192.168.186.2 presend 0 minpoll 0 maxpoll 0 iburst prefer trust\nallow 192.168.186.0/24\nlocal stratum 10' /etc/chrony/chrony.conf
 
 # Enable FastDDS discovery server
 sudo systemctl enable tb4_fastdds.service
-
-
-
 
 cat <<\EOF >> tb4_hostapd.service
 [Unit]
@@ -399,111 +389,20 @@ macaddr_acl=0
 wpa=2
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP CCMP
-#Set a password for your access point
 wpa_passphrase=turtlebot4
 EOF
 
 sudo mv hostapd.conf /etc/hostapd
 
 cat <<\EOF >> udhcpd.conf
-# Sample udhcpd configuration file (/etc/udhcpd.conf)
-
-# The start and end of the IP lease block
 start		192.168.77.20	#default: 192.168.0.20
 end		192.168.77.40	#default: 192.168.0.254
-
-# The interface that udhcpd will use
 interface	uap0		#default: eth0
-
-# The maximim number of leases (includes addressesd reserved
-# by OFFER's, DECLINE's, and ARP conficts
 max_leases	20		#default: 254
-
-# If remaining is true (default), udhcpd will store the time
-# remaining for each lease in the udhcpd leases file. This is
-# for embedded systems that cannot keep time between reboots.
-# If you set remaining to no, the absolute time that the lease
-# expires at will be stored in the dhcpd.leases file.
-#remaining	yes		#default: yes
-
-# The time period at which udhcpd will write out a dhcpd.leases
-# file. If this is 0, udhcpd will never automatically write a
-# lease file. (specified in seconds)
-#auto_time	7200		#default: 7200 (2 hours)
-
-# The amount of time that an IP will be reserved (leased) for if a
-# DHCP decline message is received (seconds).
-#decline_time	3600		#default: 3600 (1 hour)
-
-# The amount of time that an IP will be reserved (leased) for if an
-# ARP conflct occurs. (seconds
-#conflict_time	3600		#default: 3600 (1 hour)
-
-# How long an offered address is reserved (leased) in seconds
-#offer_time	60		#default: 60 (1 minute)
-
-# If a lease to be given is below this value, the full lease time is
-# instead used (seconds).
-#min_lease	60		#defult: 60
-
-# The location of the leases file
 lease_file	/var/log/udhcpd.leases	#defualt: /var/lib/misc/udhcpd.leases
-
-# The location of the pid file
-#pidfile	/var/run/udhcpd.pid	#default: /var/run/udhcpd.pid
-
-# Everytime udhcpd writes a leases file, the below script will be called.
-# Useful for writing the lease file to flash every few hours.
-#notify_file				#default: (no script)
-#notify_file	dumpleases	# <--- useful for debugging
-
-# The following are bootp specific options, setable by udhcpd.
-#siaddr		192.168.0.22		#default: 0.0.0.0
-#sname		zorak			#default: (none)
-#boot_file	/var/nfs_root		#default: (none)
-
-# The remainer of options are DHCP options and can be specifed with the
-# keyword 'opt' or 'option'. If an option can take multiple items, such
-# as the dns option, they can be listed on the same line, or multiple
-# lines. The only option with a default is 'lease'.
-
-#Examles
-#opt	dns	192.168.10.2 192.168.10.10
 option	subnet	255.255.255.0
 opt	router	192.168.77.1
 opt	ntpsrv	192.168.77.1
-#opt	wins	192.168.10.10
-#option	dns	129.219.13.81	# appened to above DNS servers for a total of 3
-#option	domain	local
-#option	lease	864000		# 10 days of seconds
-
-# Currently supported options, for more info, see options.c
-#opt subnet
-#opt timezone
-#opt router
-#opt timesrv
-#opt namesrv
-#opt dns
-#opt logsrv
-#opt cookiesrv
-#opt lprsrv
-#opt bootsize
-#opt domain
-#opt swapsrv
-#opt rootpath
-#opt ipttl
-#opt mtu
-#opt broadcast
-#opt wins
-#opt lease
-#opt ntpsrv
-#opt tftp
-#opt bootfile
-#opt wpad
-
-# Static leases map
-#static_lease 00:60:08:11:CE:4E 192.168.0.54
-#static_lease 00:60:08:11:CE:3E 192.168.0.44
 static_lease	40:31:3C:AA:71:82	192.168.77.30
 EOF
 
@@ -512,10 +411,6 @@ sudo systemctl enable tb4_hostapd.service
 
 # TODO: create tb4_start.service
 # ros2 launch turtlebot4_bringup standard.launch.py
-
-
-
-
 
 # ROS2 sourcing
 echo >> ~/.bashrc

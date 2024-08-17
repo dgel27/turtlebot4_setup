@@ -12,7 +12,8 @@
 # curl -X POST -d "config=${value}" "http://192.168.186.2/ros-config-save-main"
 # curl -X POST --data-binary @$1 "http://192.168.186.2/api/firmware-update"
 # curl -X POST -d "config=22.22.22.22 iburst" "http://192.168.186.2/beta-ntp-conf-save"
-
+# curl -X POST http://192.168.186.2/api/restart-app
+# curl -X POST http://192.168.186.2/api/factory-reset
 
 
 sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/20apt-esm-hook.conf.disabled --add /etc/apt/apt.conf.d/20apt-esm-hook.conf

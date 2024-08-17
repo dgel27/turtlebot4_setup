@@ -3,6 +3,17 @@
 # Script to create SD card for iRobot Humble from scratch
 #
 #
+# Create 3 API's:
+# Update RWM profile:
+# curl -X POST -d "config=${value}" "http://192.168.186.2/rmw-profile-override-save"
+# Reboot:
+# curl -X POST -d "http://192.168.186.2/api/reboot" -?
+# curl -X POST -d "http://192.168.186.2/api/restart-ntpd" -?
+# curl -X POST -d "config=${value}" "http://192.168.186.2/ros-config-save-main"
+# curl -X POST --data-binary @$1 "http://192.168.186.2/api/firmware-update"
+# curl -X POST -d "config=22.22.22.22 iburst" "http://192.168.186.2/beta-ntp-conf-save"
+
+
 
 sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/20apt-esm-hook.conf.disabled --add /etc/apt/apt.conf.d/20apt-esm-hook.conf
 sudo dpkg-divert --rename --divert /etc/apt/apt.conf.d/99needrestart.disabled --add /etc/apt/apt.conf.d/99needrestart
